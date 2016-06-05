@@ -18,7 +18,7 @@ def add_website_suffix(website):
     website = website.lower()
     result = ''
     for c in website:
-        if c in vows:
+        if c not in vows:
             result += c
     return '@' + result
 
