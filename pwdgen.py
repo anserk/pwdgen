@@ -11,6 +11,17 @@ caps_dict = {'1': '!', '2': '@', '3': '#', '4': '$', '5': '%',
 
 caps_freq = [1, 3, 5, 8, 13, 21, 34]
 
+vows = ['a', 'e', 'i', 'o', 'u']
+
+
+def add_website_suffix(website):
+    website = website.lower()
+    result = ''
+    for c in website:
+        if c in vows:
+            result += c
+    return '@' + result
+
 
 def caps(sentence):
     result = ''
@@ -29,15 +40,19 @@ def leet(sentence):
     return result
 
 
-def generate_password(sentence):
+def generate_password(sentence, website=''):
     sentence = sentence.lower()
     sentence = sentence.replace(' ', '')
     sentence = leet(sentence)
     sentence = caps(sentence)
+    sentence = sentence + add_website_suffix(website)
     return sentence
 
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         sys.exit('Please enter a sentence.')
-    print(generate_password(sys.argv[1]))
+    if len(sys.argv) == 3:
+        print(generate_password(sys.argv[1], sys.argv[2]))
+    else:
+        print(generate_password(sys.argv[1]))
