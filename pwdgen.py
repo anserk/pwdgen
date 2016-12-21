@@ -9,44 +9,37 @@ caps_dict = {'1': '!', '2': '@', '3': '#', '4': '$', '5': '%',
              ';': ':', "'": '"', '[': '{', ']': '}', '\\': '|',
              '`': '~'}
 
-caps_freq = [1, 3, 5, 8, 13, 21, 34]
-
 vows = ['a', 'e', 'i', 'o', 'u']
 
 
+def fib():
+    a, b = 0, 1
+    while 1:
+        yield a
+        a, b = b, a + b
+
+
 def add_website_suffix(website):
-    website = website.lower()
-    result = ''
-    for c in website:
-        if c not in vows:
-            result += c
-    return '@' + result
+    if not website:
+        return ''
+    return '@{}'.format(''.join([c for c in website.lower()
+                                if c not in vows]))
 
 
 def caps(sentence):
-    result = ''
-    for i, c in enumerate(sentence):
-        if i % 2 in caps_freq:
-            result += caps_dict.get(c, chr(ord(c) - 32))
-        else:
-            result += c
-    return result
+    return ''.join([caps_dict.get(c, chr(ord(c) -32))
+                    if i % 2 in fib()
+                    else c
+                    for i, c in enumerate(sentence)])
 
 
 def leet(sentence):
-    result = ''
-    for c in sentence:
-        result = result + leet_dict.get(c, c)
-    return result
+    return ''.join([leet_dict.get(c, c) for c in sentence])
 
 
 def generate_password(sentence, website=''):
-    sentence = sentence.lower()
-    sentence = sentence.replace(' ', '')
-    sentence = leet(sentence)
-    sentence = caps(sentence)
-    sentence = sentence + add_website_suffix(website)
-    return sentence
+    return '{}{}'.format(caps(leet(sentence.lower().replace(' ', ''))),
+                    add_website_suffix(website))
 
 
 if __name__ == "__main__":
